@@ -13,3 +13,5 @@ set number
 set relativenumber
 set ts=4
 set sw=4
+
+:map <C-b> :NvimTreeToggle<CR>
