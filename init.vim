@@ -7,8 +7,6 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
-" TODO: add and config autocompletion plugin
-
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
 
 " these two plugins will add highlighting and indenting to JSX and TSX files.
@@ -37,6 +35,9 @@ noremap <Right> <Nop>
 
 " Open fuzzy finder
 nnoremap <C-p> :Files<CR>
+
+" Better terminal mode exit shortcut
+:tnoremap <Esc> <C-\><C-n>
 
 function! CheckBackspace() abort
   let col = col('.') - 1
