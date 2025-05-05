@@ -8,36 +8,22 @@ vim.opt.wrap = false -- Disable line wrapping
 
 -- Keymaps
 local map = vim.keymap.set
-map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-map("n", "<leader>q", ":q<CR>", { desc = "Quit Neovim" })
 
--- Plugin setup
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
--- Bootstrap packer.nvim if not installed
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-  vim.cmd("packadd packer.nvim")
+-- Bootstrap lazy.nvim if not installed
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-require("packer").startup(function(use)
-  -- Packer can manage itself
-  use("wbthomason/packer.nvim")
-
-  -- Lazygit integration
-  use({
-    "kdheepak/lazygit.nvim",
-    config = function()
-      vim.keymap.set("n", "<leader>gg", ":LazyGit<CR>", { desc = "Open Lazygit" })
-    end,
-  })
-
-  -- Which-key for keybinding hints
-  use({
-    "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup({})
-    end,
-  })
-end)
+-- Plugin setup using lazy.nvim
+require("lazy").setup({
+  {},
+})
