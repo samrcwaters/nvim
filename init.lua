@@ -2,15 +2,11 @@ vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.wrap = false -- Disable line wrapping
-vim.g.have_nerd_font = true
 
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = "<Space>"
-vim.g.maplocalleader = "<Space>"
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Sync clipboard between OS and Neovim -- scheduled after `UiEnter` because it can increase startup-time.
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
 end)
@@ -43,10 +39,21 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+if vim.g.vscode then
+  vim.print("Running in VSCode")
+else
+  vim.print("Not running in VSCode")
+end
+
 require("lazy").setup({
   {
     "folke/which-key.nvim",
     event = "VimEnter", -- Sets the loading event to 'VimEnter'
     opts = {},
+    config = function()
+      local wk = require("which-key")
+      wk.setup({})
+      wk.register({}, { prefix = "<leader>" }) -- Trigger which-key with the leader key alone
+    end,
   },
 })
