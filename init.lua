@@ -1,3 +1,4 @@
+-- vim.cmd([[echomsg 'foo']])
 vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
 vim.opt.expandtab = true -- Use spaces instead of tabs
@@ -38,22 +39,3 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
-
-if vim.g.vscode then
-  vim.print("Running in VSCode")
-else
-  vim.print("Not running in VSCode")
-end
-
-require("lazy").setup({
-  {
-    "folke/which-key.nvim",
-    event = "VimEnter", -- Sets the loading event to 'VimEnter'
-    opts = {},
-    config = function()
-      local wk = require("which-key")
-      wk.setup({})
-      wk.register({}, { prefix = "<leader>" }) -- Trigger which-key with the leader key alone
-    end,
-  },
-})
