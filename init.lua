@@ -1,11 +1,11 @@
--- vim.cmd([[echomsg 'foo']])
 vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.wrap = false -- Disable line wrapping
 
-vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
+vim.keymap.set("n", "<C-s>", ":w<CR>", { noremap = true })
 
 -- Sync clipboard between OS and Neovim -- scheduled after `UiEnter` because it can increase startup-time.
 vim.schedule(function()
