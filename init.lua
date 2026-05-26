@@ -39,3 +39,47 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- [[ Configure plugins ]]
+require("lazy").setup({
+  { "folke/which-key.nvim", opts = {} },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  {
+    "tpope/vim-dadbod",
+    dependencies = {
+      "kristijanhusak/vim-dadbod-ui",
+      "kristijanhusak/vim-dadbod-completion",
+    },
+    config = function()
+      -- Keychain helper for DB passwords
+      local function get_db_password(service, account)
+        local cmd = string.format('security find-generic-password -s "%s" -a "%s" -w', service, account)
+        local result = vim.fn.trim(vim.fn.system(cmd))
+        if vim.v.shell_error ~= 0 then
+          return nil
+        end
+        return result
+      end
+
+      -- Expose helper globally for use in g:dbs
+      _G.get_db_password = get_db_password
+    end,
+  },
+})
+
+-- DBUI Keybindings
+vim.keymap.set("n", "<leader>du", "<cmd>DBUIToggle<cr>", { desc = "Toggle DBUI" })
+vim.keymap.set("n", "<leader>df", "<cmd>DBUIFindBuffer<cr>", { desc = "Find DBUI Buffer" })
+vim.keymap.set("n", "<leader>dr", "<cmd>DBUIRenameBuffer<cr>", { desc = "Rename DBUI Buffer" })
+vim.keymap.set("n", "<leader>dl", "<cmd>DBUILastQueryInfo<cr>", { desc = "Last Query Info" })
+
+-- Example usage for g:dbs:
+-- vim.g.dbs = {
+--   {
+--     name = 'my_db',
+--     url = function()
+--       local pass = _G.get_db_password('MyService', 'myuser')
+--       return 'postgresql://myuser:' .. pass .. '@localhost:5432/mydb'
+--     end
+--   }
+-- }
