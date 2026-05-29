@@ -15,6 +15,9 @@ end)
 -- Save undo history
 vim.opt.undofile = true
 
+-- Enable local configurations (.nvim.lua)
+vim.o.exrc = true
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -73,13 +76,4 @@ vim.keymap.set("n", "<leader>df", "<cmd>DBUIFindBuffer<cr>", { desc = "Find DBUI
 vim.keymap.set("n", "<leader>dr", "<cmd>DBUIRenameBuffer<cr>", { desc = "Rename DBUI Buffer" })
 vim.keymap.set("n", "<leader>dl", "<cmd>DBUILastQueryInfo<cr>", { desc = "Last Query Info" })
 
--- Example usage for g:dbs:
--- vim.g.dbs = {
---   {
---     name = 'my_db',
---     url = function()
---       local pass = _G.get_db_password('MyService', 'myuser')
---       return 'postgresql://myuser:' .. pass .. '@localhost:5432/mydb'
---     end
---   }
--- }
+
