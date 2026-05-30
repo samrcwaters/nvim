@@ -68,6 +68,26 @@ require("lazy").setup({
       _G.get_db_password = get_db_password
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    commit = "4916d6592ede8c07973490d9322f187e07dfefac",
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").setup({
+        install_dir = vim.fn.stdpath("data") .. "/site",
+      })
+      require("nvim-treesitter").install({ "javascript", "typescript", "tsx", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" })
+    end,
+  },
+})
+
+-- Enable Treesitter highlighting and indentation
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript", "typescriptreact", "javascriptreact", "lua", "vim", "vimdoc", "query", "markdown" },
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
 })
 
 -- DBUI Keybindings
