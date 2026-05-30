@@ -2,6 +2,7 @@ vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.wrap = false -- Disable line wrapping
+vim.opt.termguicolors = true -- Enable true color support
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
@@ -45,6 +46,13 @@ vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
 require("lazy").setup({
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme gruvbox")
+    end,
+  },
   { "folke/which-key.nvim", opts = {} },
   { "nvim-tree/nvim-web-devicons", lazy = true },
   {
